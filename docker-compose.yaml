@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-addressbook
+    volumes:
+       - "./docker/nginx.conf:/etc/nginx/conf.d/default.conf"
+       - "./:/var/www"
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+      - db
+  php:
+    build:
+      context: docker
+      dockerfile: php-fpm.Dockerfile
+    container_name: php-addressbook
+    volumes:
+      - "./:/var/www"
+    expose:
+      - "9000"
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: db-addressbook
+    volumes:
+     - 'addressbook:/var/lib/mysql'
+     - ./addressbook.sql:/docker-entrypoint-initdb.d/initialise.sql
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_DATABASE: addressbook
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Admin1234
+      MYSQL_ROOT_PASSWORD: Qwerty123
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8010:80
+    environment:
+      - PMA_ARBITRARY=1
+volumes:
+  addressbook:
+    driver: local
