@@ -1,10 +1,10 @@
 <?php
   
   // Database access definition
-  $dbserver     = "192.168.0.101:3306"; // your database hostname
+  $dbserver     = "localhost:3306"; // your database hostname
   $dbname       = "addressbook";      // your database name
   $dbuser       = "admin";      // your database username     
-  $dbpass       = "Admin1234";          // your database password     
+  $dbpass       = "admin";          // your database password     
 
   // Read-Only user for increasd security (optional):
   // * GRANT SELECT ON $dbname.addressbook       TO $dbuser_read
